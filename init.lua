@@ -654,7 +654,9 @@ require('lazy').setup({
       --    :Mason
       --
       -- You can press `g?` for help in this menu.
-      local ensure_installed = vim.tbl_keys(servers or {})
+      -- r_language_server is installed via apt (r-cran-languageserver) because
+      -- Mason's installer routes through R's bspm, which needs D-Bus.
+      local ensure_installed = vim.tbl_filter(function(name) return name ~= 'r_language_server' end, vim.tbl_keys(servers or {}))
       vim.list_extend(ensure_installed, {
         -- You can add other tools here that you want Mason to install
       })
